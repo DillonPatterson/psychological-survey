@@ -1,449 +1,1419 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Psychology Research Survey</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            font-weight: 300;
-        }
-
-        .header p {
-            font-size: 1.1em;
-            opacity: 0.9;
-        }
-
-        .form-container {
-            padding: 40px 30px;
-        }
-
-        .question-group {
-            margin-bottom: 30px;
-            opacity: 0;
-            animation: fadeInUp 0.6s ease forwards;
-        }
-
-        .question-group:nth-child(1) { animation-delay: 0.1s; }
-        .question-group:nth-child(2) { animation-delay: 0.2s; }
-        .question-group:nth-child(3) { animation-delay: 0.3s; }
-        .question-group:nth-child(4) { animation-delay: 0.4s; }
-        .question-group:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
-        }
-
-        input[type="text"], input[type="email"], input[type="number"], select, textarea {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        input[type="text"]:focus, input[type="email"]:focus, input[type="number"]:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #4facfe;
-            background: white;
-            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-top: 10px;
-        }
-
-        .radio-option {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 25px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .radio-option:hover {
-            border-color: #4facfe;
-            background: white;
-        }
-
-        .radio-option input[type="radio"] {
-            margin-right: 8px;
-        }
-
-        .radio-option input[type="radio"]:checked + .radio-label {
-            color: #4facfe;
-            font-weight: 600;
-        }
-
-        .radio-option:has(input[type="radio"]:checked) {
-            border-color: #4facfe;
-            background: #f0f8ff;
-        }
-
-        .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .checkbox-option {
-            display: flex;
-            align-items: center;
-            padding: 10px 15px;
-            border: 2px solid #e1e5e9;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background: #f8f9fa;
-        }
-
-        .checkbox-option:hover {
-            border-color: #4facfe;
-            background: white;
-        }
-
-        .checkbox-option input[type="checkbox"] {
-            margin-right: 8px;
-        }
-
-        .checkbox-option:has(input[type="checkbox"]:checked) {
-            border-color: #4facfe;
-            background: #f0f8ff;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 18px 40px;
-            border: none;
-            border-radius: 50px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: block;
-            margin: 40px auto 0;
-            min-width: 200px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            display: none;
-        }
-
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            display: none;
-        }
-
-        @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-            }
-            
-            .header {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 2em;
-            }
-            
-            .form-container {
-                padding: 30px 20px;
-            }
-            
-            .radio-group {
-                flex-direction: column;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Community Garden Cognitive Study</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    :root {
+      --primary: #4caf50;
+      --primary-dark: #388e3c;
+      --secondary: #ff9800;
+      --accent: #2196f3;
+      --background: #f5f9f5;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e0e0;
+      --success: #4caf50;
+      --error: #f44336;
+      --warning: #ff9800;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+      --garden-bg: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--background);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+      background-image: var(--garden-bg);
+      background-attachment: fixed;
+    }
+    
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #4caf50, #8bc34a, #cddc39);
+    }
+    
+    h1 {
+      color: var(--primary-dark);
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+    
+    .subtitle {
+      color: var(--text-light);
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    
+    /* Main Screen Container */
+    #screen {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    /* Section Title */
+    .section-title {
+      color: var(--primary-dark);
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.8rem;
+    }
+    
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    input, textarea, select {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: #fafafa;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+    }
+    
+    /* Buttons */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 25px 0;
+    }
+    
+    .btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      font-size: 1.1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .btn:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-secondary {
+      background: var(--secondary);
+    }
+    
+    .btn-secondary:hover {
+      background: #e68a00;
+    }
+    
+    .btn-block {
+      display: block;
+      width: 100%;
+    }
+    
+    /* Stroop Test Elements */
+    .word {
+      font-size: 3.5rem;
+      font-weight: bold;
+      margin: 30px 0;
+      text-align: center;
+      padding: 20px;
+      border-radius: 12px;
+      background: #f9f9f9;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      border: 3px solid #e0e0e0;
+    }
+    
+    /* Instructions */
+    .instruction {
+      background: #e8f5e9;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      border-left: 4px solid var(--primary);
+      font-size: 1.1rem;
+      position: relative;
+    }
+    
+    .instruction i {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: #4caf50;
+      font-size: 1.5rem;
+    }
+    
+    /* Progress Bar */
+    .progress-container {
+      background: #e0e0e0;
+      border-radius: 10px;
+      height: 12px;
+      margin: 30px 0;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    
+    .trial-counter {
+      text-align: center;
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    /* Feedback */
+    .feedback {
+      text-align: center;
+      font-size: 1.4rem;
+      margin: 20px 0;
+      font-weight: 600;
+      min-height: 40px;
+      padding: 10px;
+      border-radius: 8px;
+    }
+    
+    .correct {
+      color: var(--success);
+      background: rgba(76, 175, 80, 0.1);
+    }
+    
+    .incorrect {
+      color: var(--error);
+      background: rgba(244, 67, 54, 0.1);
+    }
+    
+    /* Result Cards */
+    .result-card {
+      background: #e8f5e9;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 25px 0;
+      text-align: center;
+      border: 2px solid #c8e6c9;
+      position: relative;
+    }
+    
+    .result-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, #4caf50, #8bc34a, #cddc39);
+    }
+    
+    .result-score {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 10px 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    /* Debug Log */
+    .debug-container {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
+      border-left: 4px solid var(--accent);
+      font-size: 0.9rem;
+    }
+    
+    .debug-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    #debug {
+      font-family: monospace;
+      white-space: pre-wrap;
+      font-size: 0.85rem;
+      max-height: 200px;
+      overflow-y: auto;
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      line-height: 1.5;
+    }
+    
+    /* Success Screen */
+    .success-screen {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    
+    .success-icon {
+      font-size: 5rem;
+      color: var(--success);
+      margin-bottom: 20px;
+      animation: pulse 1.5s infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    
+    /* Rating Slider Labels */
+    .rating-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 10px 0 20px;
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 8px;
+    }
+    
+    .rating-label {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      text-align: center;
+      width: 20%; /* Distributes labels evenly */
+    }
+    
+    .info-text {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 5px;
+      font-style: italic;
+    }
+    
+    /* Garden Animation */
+    .garden-animation {
+      display: flex;
+      justify-content: space-around;
+      margin: 20px 0;
+      height: 100px;
+      align-items: flex-end; /* Align plants to the bottom */
+      overflow: hidden; /* Hide overflow for plants that might extend beyond */
+    }
+    
+    .plant {
+      width: 40px;
+      height: 0;
+      background: #4caf50;
+      border-radius: 5px 5px 20px 20px; /* Rounded top, flat bottom */
+      position: relative;
+      animation: grow 2s forwards;
+      animation-delay: calc(var(--delay) * 0.5s);
+      align-self: flex-end;
+    }
+    
+    .plant::before {
+      content: "";
+      position: absolute;
+      top: -15px; /* Adjust leaf position */
+      left: 0; /* Center leaves */
+      width: 40px;
+      height: 30px;
+      background: #8bc34a;
+      border-radius: 50% 50% 0 0; /* Leaf shape */
+      transform: scaleY(0.8); /* Make it look like leaves */
+    }
+    
+    @keyframes grow {
+      from { height: 0; }
+      to { height: var(--height); }
+    }
+    
+    /* Gardening Section */
+    .garden-section {
+      padding: 20px;
+      background: rgba(139, 195, 74, 0.1);
+      border-radius: 12px;
+      margin: 20px 0;
+      text-align: center;
+      border: 1px dashed #8bc34a;
+    }
+    
+    .garden-section h3 {
+      color: #2e7d32;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin-top: 20px;
+    }
+    
+    .stat-card {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-dark);
+      margin: 10px 0;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .button-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .word {
+        font-size: 2.5rem;
+      }
+      
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 10px;
+      }
+      
+      #screen {
+        padding: 20px 15px;
+      }
+      
+      .section-title {
+        font-size: 1.5rem;
+      }
+      
+      .btn {
+        padding: 12px 15px;
+        font-size: 1rem;
+      }
+    }
+    
+    /* Footer */
+    .footer-note {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Psychology Research Survey</h1>
-            <p>Your responses will help advance psychological research. All data is collected anonymously.</p>
-        </div>
+  <header>
+    <h1><i class="fas fa-seedling"></i> Community Garden Cognitive Study</h1>
+    <p class="subtitle">Measuring the cognitive benefits of community gardening through Stroop testing and self-assessment. Participate in the study before and after your gardening session to measure cognitive changes.</p>
+  </header>
+  
+  <div id="screen"></div>
+  
+  <div class="debug-container">
+    <div class="debug-title"><i class="fas fa-bug"></i> System Log</div>
+    <div id="debug">Waiting for participant...</div>
+  </div>
+  
+  <div class="footer-note">
+    <p>This study is part of the Green Minds Research Initiative. All data is collected anonymously.</p>
+  </div>
+
+  <script>
+    "use strict"; // Enable strict mode for better error checking
+
+    // --- Constants ---
+    const STROOP_COLORS = ["Red", "Blue", "Green", "Yellow"];
+    const COLOR_VALUES = {
+      "Red": "#f44336",
+      "Blue": "#2196f3",
+      "Green": "#4caf50",
+      "Yellow": "#ffc107"
+    };
+    const STROOP_TRIAL_COUNT = 10; // Total number of Stroop trials
+    const INCONGRUENT_PROBABILITY = 0.7; // 70% chance of an incongruent trial
+    const FEEDBACK_DISPLAY_TIME = 1000; // 1 second for feedback display
+    const RATING_MIN = 1;
+    const RATING_MAX = 7;
+
+    // --- Google Sheets Web App URL ---
+    // IMPORTANT: Replace this with YOUR deployed Google Apps Script Web App URL
+    const GOOGLE_SHEETS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbwf6yGCS7h-ru_ku8CbyG3GtNsNfcda8IRfGtJzKtEid6VvNEUTHxwbZ_zKPfUT2TRB/exec'; 
+    // You might need a CORS proxy if deploying directly from local/static hosting.
+    // For local testing, you can use https://cors-anywhere.herokuapp.com/
+    // For deployment, ensure your Google Apps Script is configured for CORS or use a proper backend.
+    const CORS_PROXY_URL = "https://cors-anywhere.herokuapp.com/"; // Only for testing, not recommended for production
+
+    // --- Global State Variables ---
+    let participantCode = "";
+    let stroopTrials = [];
+    let currentTrialIndex = 0; // Renamed from currentTrial to avoid confusion
+    let stroopCurrentScore = 0; // Renamed from stroopScore for clarity
+    let currentStroopStartTime; // To measure individual trial response times
+
+    // Object to store all survey and test responses
+    const studyResponses = { 
+      participantCode: "",
+      pre: {
+        timestamp: null,
+        survey: {},
+        stroop: {
+          totalScore: 0,
+          totalTime: 0,
+          trialDetails: [] // To store each trial's data: {word, inkColor, chosenResponse, isCorrect, reactionTime}
+        }
+      },
+      post: {
+        timestamp: null,
+        survey: {},
+        stroop: {
+          totalScore: 0,
+          totalTime: 0,
+          trialDetails: []
+        }
+      }
+    };
+    
+    // --- Utility Functions ---
+
+    /**
+     * Updates the content of the #screen div.
+     * @param {string} html - The HTML string to set as the innerHTML of the screen.
+     */
+    function updateScreen(html) {
+      document.getElementById("screen").innerHTML = html;
+      logDebug("Screen updated.");
+      // After updating HTML, re-attach event listeners if elements are dynamically created
+      attachEventListeners(); 
+    }
+
+    /**
+     * Logs a message to the debug console.
+     * @param {string} message - The message to log.
+     */
+    function logDebug(message) {
+      const now = new Date();
+      const timestamp = now.toLocaleTimeString();
+      const debugElement = document.getElementById("debug");
+      if (debugElement) {
+        debugElement.textContent += `[${timestamp}] ${message}\n`;
+        debugElement.scrollTop = debugElement.scrollHeight; // Auto-scroll to bottom
+      }
+    }
+
+    /**
+     * Attaches event listeners dynamically created elements.
+     * This is crucial when using innerHTML to update content.
+     */
+    function attachEventListeners() {
+      // Welcome screen button
+      const beginStudyBtn = document.querySelector('.btn-block[onclick="saveCode()"]');
+      if (beginStudyBtn) {
+        beginStudyBtn.onclick = saveCode;
+      }
+
+      // Pre-survey button
+      const preSurveyBtn = document.querySelector('.btn-block[onclick="savePreSurvey()"]');
+      if (preSurveyBtn) {
+        preSurveyBtn.onclick = savePreSurvey;
+      }
+
+      // Stroop instructions button
+      const stroopInstructionsBtn = document.querySelector('.btn-block[onclick="startStroopTest()"]');
+      if (stroopInstructionsBtn) {
+        stroopInstructionsBtn.onclick = startStroopTest;
+      }
+
+      // Stroop response buttons
+      const stroopButtons = document.querySelectorAll('.button-grid .btn');
+      stroopButtons.forEach(button => {
+        // Remove existing onclick to prevent multiple calls
+        button.onclick = null; 
+        const color = button.textContent.trim();
+        button.onclick = () => handleStroopResponse(color);
+      });
+
+      // Post-gardening button
+      const postSurveyBtn = document.querySelector('.btn-block[onclick="savePostSurvey()"]');
+      if (postSurveyBtn) {
+        postSurveyBtn.onclick = savePostSurvey;
+      }
+      
+      // Submit results button (only if it exists on the screen)
+      const submitResultsBtn = document.querySelector('.btn-block[onclick="submitData()"]');
+      if (submitResultsBtn) {
+          submitResultsBtn.onclick = submitData;
+      }
+    }
+
+
+    // --- Study Flow Functions ---
+
+    /**
+     * Initializes the application.
+     */
+    function start() {
+      logDebug("Application started.");
+      showWelcomeScreen();
+    }
+
+    /**
+     * Displays the welcome screen and participant code input.
+     */
+    function showWelcomeScreen() {
+      updateScreen(
+        `<div>
+          <div class="garden-animation">
+            <div class="plant" style="--height: 60px; --delay: 0"></div>
+            <div class="plant" style="--height: 80px; --delay: 1"></div>
+            <div class="plant" style="--height: 70px; --delay: 2"></div>
+            <div class="plant" style="--height: 90px; --delay: 3"></div>
+            <div class="plant" style="--height: 75px; --delay: 4"></div>
+          </div>
+          
+          <h2 class="section-title"><i class="fas fa-spa"></i> Welcome to the Study</h2>
+          <p>This research project aims to measure the cognitive benefits of community gardening. The study consists of three phases:</p>
+          
+          <div class="instruction">
+            <i class="fas fa-clipboard-list"></i>
+            <p><strong>1. Pre-Gardening Assessment</strong> - Complete a survey and cognitive test before gardening</p>
+          </div>
+          
+          <div class="instruction">
+            <i class="fas fa-seedling"></i>
+            <p><strong>2. Gardening Session</strong> - Participate in community gardening for 45-60 minutes</p>
+          </div>
+          
+          <div class="instruction">
+            <i class="fas fa-chart-line"></i>
+            <p><strong>3. Post-Gardening Assessment</strong> - Repeat the survey and cognitive test after gardening</p>
+          </div>
+          
+          <div class="form-group">
+            <label for="codeInput"><i class="fas fa-id-card"></i> Participant Code:</label>
+            <input type="text" id="codeInput" maxlength="6" placeholder="e.g., GD123" value="${studyResponses.participantCode || ''}">
+            <p class="info-text">Your unique 3-6 character code (letters and numbers only)</p>
+          </div>
+          
+          <button class="btn btn-block" onclick="saveCode()">
+            <i class="fas fa-play-circle"></i> Begin Study
+          </button>
+        </div>`
+      );
+    }
+
+    /**
+     * Saves the participant code and proceeds to the pre-gardening survey.
+     */
+    function saveCode() {
+      const codeInput = document.getElementById("codeInput");
+      const code = codeInput ? codeInput.value.trim() : "";
+      const codeRegex = /^[A-Za-z0-9]{3,6}$/;
+      
+      if (!codeRegex.test(code)) {
+        alert("Please enter a valid participant code (3-6 alphanumeric characters).");
+        logDebug("Invalid participant code entered.");
+        codeInput && codeInput.focus();
+        return;
+      }
+      
+      studyResponses.participantCode = code;
+      logDebug(`Participant code set: ${studyResponses.participantCode}`);
+      showPreSurvey();
+    }
+
+    /**
+     * Validates survey input fields.
+     * @param {string} prefix - "pre" or "post" to identify the survey stage.
+     * @returns {boolean} True if all inputs are valid, false otherwise.
+     */
+    function validateSurveyInputs(prefix) {
+      const numericFields = ["Clarity", "Fatigue", "Focus", "Stress", "Demand", "Social"];
+      let isValid = true;
+      
+      for (const field of numericFields) {
+        const element = document.getElementById(`${prefix}${field}`);
+        const value = element ? element.value.trim() : "";
+        const numValue = parseInt(value);
         
-        <form id="surveyForm" class="form-container">
-            <div class="question-group">
-                <label for="age">What is your age?</label>
-                <input type="number" id="age" name="age" min="18" max="100" required>
-            </div>
+        if (value === "" || isNaN(numValue) || numValue < RATING_MIN || numValue > RATING_MAX) {
+          alert(`Please enter a valid number between ${RATING_MIN} and ${RATING_MAX} for ${field.replace(/([A-Z])/g, ' $1').trim()}.`);
+          element && element.focus();
+          isValid = false;
+          logDebug(`Validation failed for ${prefix}${field}: ${value}`);
+          break;
+        }
+      }
 
-            <div class="question-group">
-                <label>What is your gender?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="male" name="gender" value="Male" required>
-                        <label class="radio-label" for="male">Male</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="female" name="gender" value="Female" required>
-                        <label class="radio-label" for="female">Female</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="non-binary" name="gender" value="Non-binary" required>
-                        <label class="radio-label" for="non-binary">Non-binary</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="prefer-not-to-say" name="gender" value="Prefer not to say" required>
-                        <label class="radio-label" for="prefer-not-to-say">Prefer not to say</label>
-                    </div>
-                </div>
-            </div>
+      const screenTime = document.getElementById(`${prefix}Screen`);
+      if (screenTime && prefix === "pre") { // Only pre-survey has screen time
+        const screenTimeValue = screenTime.value.trim();
+        const numScreenTime = parseFloat(screenTimeValue);
+        if (screenTimeValue === "" || isNaN(numScreenTime) || numScreenTime < 0) {
+          alert("Please enter a valid number for Estimated Screen Time (can be 0 or a decimal).");
+          screenTime.focus();
+          isValid = false;
+          logDebug(`Validation failed for ${prefix}Screen: ${screenTimeValue}`);
+        }
+      }
 
-            <div class="question-group">
-                <label for="education">What is your highest level of education?</label>
-                <select id="education" name="education" required>
-                    <option value="">Please select...</option>
-                    <option value="High School">High School</option>
-                    <option value="Some College">Some College</option>
-                    <option value="Bachelor's Degree">Bachelor's Degree</option>
-                    <option value="Master's Degree">Master's Degree</option>
-                    <option value="Doctoral Degree">Doctoral Degree</option>
-                    <option value="Other">Other</option>
-                </select>
-            </div>
+      const weather = document.getElementById(`${prefix}Weather`);
+      if (weather && weather.value === "") {
+        alert("Please select a weather condition.");
+        weather.focus();
+        isValid = false;
+        logDebug(`Validation failed for ${prefix}Weather: not selected`);
+      }
 
-            <div class="question-group">
-                <label>How often do you experience stress in your daily life?</label>
-                <div class="radio-group">
-                    <div class="radio-option">
-                        <input type="radio" id="never" name="stress" value="Never" required>
-                        <label class="radio-label" for="never">Never</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="rarely" name="stress" value="Rarely" required>
-                        <label class="radio-label" for="rarely">Rarely</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="sometimes" name="stress" value="Sometimes" required>
-                        <label class="radio-label" for="sometimes">Sometimes</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="often" name="stress" value="Often" required>
-                        <label class="radio-label" for="often">Often</label>
-                    </div>
-                    <div class="radio-option">
-                        <input type="radio" id="always" name="stress" value="Always" required>
-                        <label class="radio-label" for="always">Always</label>
-                    </div>
-                </div>
-            </div>
+      const people = document.getElementById(`${prefix}People`);
+      if (people && people.value.trim() === "") {
+        alert("Please describe the number of people around you.");
+        people.focus();
+        isValid = false;
+        logDebug(`Validation failed for ${prefix}People: empty`);
+      }
 
-            <div class="question-group">
-                <label>Which of the following activities help you manage stress? (Select all that apply)</label>
-                <div class="checkbox-group">
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="exercise" name="stress_management" value="Exercise">
-                        <label for="exercise">Exercise</label>
-                    </div>
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="meditation" name="stress_management" value="Meditation">
-                        <label for="meditation">Meditation</label>
-                    </div>
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="music" name="stress_management" value="Music">
-                        <label for="music">Music</label>
-                    </div>
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="reading" name="stress_management" value="Reading">
-                        <label for="reading">Reading</label>
-                    </div>
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="socializing" name="stress_management" value="Socializing">
-                        <label for="socializing">Socializing</label>
-                    </div>
-                    <div class="checkbox-option">
-                        <input type="checkbox" id="sleep" name="stress_management" value="Sleep">
-                        <label for="sleep">Sleep</label>
-                    </div>
-                </div>
-            </div>
+      if (prefix === "post") {
+        const activities = document.getElementById(`postActivities`);
+        if (activities && activities.value.trim() === "") {
+          alert("Please describe your gardening activities.");
+          activities.focus();
+          isValid = false;
+          logDebug(`Validation failed for postActivities: empty`);
+        }
+      }
+      
+      return isValid;
+    }
 
-            <div class="question-group">
-                <label for="sleep_hours">On average, how many hours of sleep do you get per night?</label>
-                <input type="number" id="sleep_hours" name="sleep_hours" min="0" max="24" step="0.5" required>
+    /**
+     * Displays the pre-gardening survey.
+     */
+    function showPreSurvey() {
+      studyResponses.pre.timestamp = new Date().toISOString(); // Record timestamp
+      updateScreen(
+        `<div>
+          <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Pre-Gardening Survey</h2>
+          <p>Please answer these questions about your current mental state before gardening.</p>
+          
+          <div class="form-group">
+            <label><i class="fas fa-brain"></i> Mental Clarity (1-7):</label>
+            <input type="number" id="preClarity" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.clarity || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Foggy</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Clear</span>
             </div>
-
-            <div class="question-group">
-                <label for="additional_comments">Is there anything else you'd like to share about your stress management or sleep habits?</label>
-                <textarea id="additional_comments" name="additional_comments" placeholder="Optional: Share any additional thoughts..."></textarea>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-tired"></i> Mental Fatigue (1-7):</label>
+            <input type="number" id="preFatigue" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.fatigue || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Rested</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Exhausted</span>
             </div>
-
-            <button type="submit" class="submit-btn" id="submitBtn">Submit Survey</button>
-            
-            <div id="successMessage" class="success-message">
-                Thank you! Your response has been recorded successfully.
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-bullseye"></i> Focus Level (1-7):</label>
+            <input type="number" id="preFocus" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.focus || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Distracted</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Focused</span>
             </div>
-            
-            <div id="errorMessage" class="error-message">
-                There was an error submitting your response. Please try again.
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-flushed"></i> Stress Level (1-7):</label>
+            <input type="number" id="preStress" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.stress || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Calm</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Stressed</span>
             </div>
-        </form>
-    </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-tasks"></i> Mental Demand Today (1-7):</label>
+            <input type="number" id="preDemand" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.demand || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Low</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">High</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-mobile-alt"></i> Estimated Screen Time (hours):</label>
+            <input type="text" id="preScreen" placeholder="e.g., 2.5" value="${studyResponses.pre.survey.screen || ''}">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-cloud-sun"></i> Current Weather:</label>
+            <select id="preWeather">
+              <option value="">Select weather</option>
+              <option value="sunny" ${studyResponses.pre.survey.weather === 'sunny' ? 'selected' : ''}>Sunny</option>
+              <option value="cloudy" ${studyResponses.pre.survey.weather === 'cloudy' ? 'selected' : ''}>Cloudy</option>
+              <option value="rainy" ${studyResponses.pre.survey.weather === 'rainy' ? 'selected' : ''}>Rainy</option>
+              <option value="windy" ${studyResponses.pre.survey.weather === 'windy' ? 'selected' : ''}>Windy</option>
+              <option value="other" ${studyResponses.pre.survey.weather === 'other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-users"></i> People Around:</label>
+            <input type="text" id="prePeople" placeholder="e.g., 3-5 people" value="${studyResponses.pre.survey.people || ''}">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-comments"></i> Social Engagement (1-7):</label>
+            <input type="number" id="preSocial" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.pre.survey.social || ''}">
+            <div class="rating-container">
+              <span class="rating-label">None</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">High</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-sticky-note"></i> Notes:</label>
+            <textarea id="preNotes" rows="3" placeholder="Any additional observations...">${studyResponses.pre.survey.notes || ''}</textarea>
+          </div>
+          
+          <button class="btn btn-block" onclick="savePreSurvey()">
+            <i class="fas fa-arrow-right"></i> Continue to Cognitive Test
+          </button>
+        </div>`
+      );
+      logDebug("Displaying pre-gardening survey.");
+    }
 
-    <script>
-        // You'll need to replace this URL with your Google Apps Script web app URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwf6yGCS7h-ru_ku8CbyG3GtNsNfcda8IRfGtJzKtEid6VvNEUTHxwbZ_zKPfUT2TRB/exec';
-        
-        // Fallback for testing - remove this when you have your Google Script URL
-        const USE_DEMO_MODE = false;
+    /**
+     * Saves pre-gardening survey responses and proceeds to Stroop test instructions.
+     */
+    function savePreSurvey() {
+      if (!validateSurveyInputs("pre")) return;
+      
+      studyResponses.pre.survey = {
+        clarity: parseInt(document.getElementById("preClarity").value),
+        fatigue: parseInt(document.getElementById("preFatigue").value),
+        focus: parseInt(document.getElementById("preFocus").value),
+        stress: parseInt(document.getElementById("preStress").value),
+        demand: parseInt(document.getElementById("preDemand").value),
+        screen: parseFloat(document.getElementById("preScreen").value),
+        weather: document.getElementById("preWeather").value,
+        people: document.getElementById("prePeople").value,
+        social: parseInt(document.getElementById("preSocial").value),
+        notes: document.getElementById("preNotes").value
+      };
+      
+      logDebug("Pre-survey responses saved.");
+      showStroopInstructions();
+    }
 
-        document.getElementById('surveyForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const submitBtn = document.getElementById('submitBtn');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            
-            // Hide previous messages
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
-            
-            // Disable submit button
-            submitBtn.disabled = true;
-            submitBtn.textContent = 'Submitting...';
-            
-            // Collect form data
-            const formData = new FormData(this);
-            
-            // Handle checkbox values (stress management)
-            const stressManagement = [];
-            const checkboxes = document.querySelectorAll('input[name="stress_management"]:checked');
-            checkboxes.forEach(cb => stressManagement.push(cb.value));
-            
-            // Create data object
-            const data = {
-                timestamp: new Date().toISOString(),
-                age: formData.get('age'),
-                gender: formData.get('gender'),
-                education: formData.get('education'),
-                stress: formData.get('stress'),
-                stress_management: stressManagement.join(', '),
-                sleep_hours: formData.get('sleep_hours'),
-                additional_comments: formData.get('additional_comments') || 'N/A'
-            };
-            
-            try {
-                if (USE_DEMO_MODE || GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_URL_HERE') {
-                    // Demo mode - just log the data
-                    console.log('Survey data:', data);
-                    await new Promise(resolve => setTimeout(resolve, 1000));
-                } else {
-                    // Real submission to Google Sheets
-                    const response = await fetch(GOOGLE_SCRIPT_URL, {
-                        method: 'POST',
-                        mode: 'no-cors',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(data)
-                    });
-                }
-                
-                // Show success message
-                successMessage.style.display = 'block';
-                
-                // Reset form
-                this.reset();
-                
-                // Scroll to success message
-                successMessage.scrollIntoView({ behavior: 'smooth' });
-                
-            } catch (error) {
-                console.error('Error:', error);
-                errorMessage.style.display = 'block';
-                errorMessage.scrollIntoView({ behavior: 'smooth' });
-            } finally {
-                // Re-enable submit button
-                submitBtn.disabled = false;
-                submitBtn.textContent = 'Submit Survey';
-            }
+    /**
+     * Displays instructions for the Stroop test.
+     */
+    function showStroopInstructions() {
+      updateScreen(
+        `<div>
+          <h2 class="section-title"><i class="fas fa-tasks"></i> Stroop Test Instructions</h2>
+          
+          <div class="instruction">
+            <i class="fas fa-info-circle"></i>
+            <p><strong>You will see color words displayed in different ink colors.</strong></p>
+            <p>Press the button corresponding to the <u>INK COLOR</u> of the word, <u>NOT</u> the word itself.</p>
+            <p>For example, if you see the word "<span style="color: ${COLOR_VALUES.Blue}">Red</span>", press the "Blue" button.</p>
+          </div>
+          
+          <div class="instruction">
+            <i class="fas fa-stopwatch"></i>
+            <p><strong>Test includes:</strong></p>
+            <ul style="padding-left: 20px; margin-top: 10px;">
+              <li>${STROOP_TRIAL_COUNT} total trials</li>
+              <li>~${(INCONGRUENT_PROBABILITY * 100).toFixed(0)}% incongruent trials</li>
+              <li>Response time measured per trial</li>
+            </ul>
+          </div>
+          
+          <div class="instruction">
+            <i class="fas fa-lightbulb"></i>
+            <p><strong>Tips:</strong> Focus on the color, not the word. Try to respond as quickly and accurately as possible.</p>
+          </div>
+          
+          <div class="word" style="color: ${COLOR_VALUES.Yellow}">Green</div>
+          
+          <button class="btn btn-block" onclick="startStroopTest()">
+            <i class="fas fa-forward"></i> Begin Test
+          </button>
+        </div>`
+      );
+      logDebug("Displaying Stroop test instructions.");
+    }
+
+    /**
+     * Generates a single Stroop trial.
+     * @returns {object} An object containing the word, ink color, and correct answer.
+     */
+    function generateStroopTrial() {
+      const word = STROOP_COLORS[Math.floor(Math.random() * STROOP_COLORS.length)];
+      let color;
+      
+      if (Math.random() < INCONGRUENT_PROBABILITY) {
+        // Incongruent: ink color is different from the word
+        const filteredColors = STROOP_COLORS.filter(c => c !== word);
+        color = filteredColors[Math.floor(Math.random() * filteredColors.length)];
+      } else {
+        // Congruent: ink color is the same as the word
+        color = word;
+      }
+      
+      return { word, inkColor: color, correctAnswer: color };
+    }
+
+    /**
+     * Starts a new Stroop test session (either pre or post).
+     */
+    function startStroopTest() {
+      stroopTrials = Array.from({ length: STROOP_TRIAL_COUNT }, generateStroopTrial);
+      currentTrialIndex = 0;
+      stroopCurrentScore = 0;
+      
+      // Clear previous trial details if restarting
+      if (studyResponses.pre.stroop.trialDetails.length > 0) {
+        studyResponses.pre.stroop.trialDetails = [];
+      } else if (studyResponses.post.stroop.trialDetails.length > 0) {
+        studyResponses.post.stroop.trialDetails = [];
+      }
+      
+      logDebug(`Stroop test started with ${stroopTrials.length} trials.`);
+      showStroopTrial();
+    }
+
+    /**
+     * Displays the current Stroop trial.
+     */
+    function showStroopTrial() {
+      if (currentTrialIndex >= stroopTrials.length) {
+        // Determine if it's pre or post test completion
+        if (!studyResponses.pre.stroop.totalScore) { // If pre-test hasn't been scored yet
+          endPreStroopTest();
+        } else {
+          endPostStroopTest();
+        }
+        return;
+      }
+      
+      const trial = stroopTrials[currentTrialIndex];
+      const progressPercent = (currentTrialIndex / STROOP_TRIAL_COUNT) * 100;
+      
+      updateScreen(
+        `<div>
+          <div class="trial-counter">Trial ${currentTrialIndex + 1} of ${STROOP_TRIAL_COUNT}</div>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: ${progressPercent}%"></div>
+          </div>
+          
+          <div class="word" style="color: ${COLOR_VALUES[trial.inkColor]}">${trial.word}</div>
+          
+          <div class="button-grid">
+            ${STROOP_COLORS.map(color => `
+              <button class="btn" data-color="${color}">
+                ${color}
+              </button>
+            `).join('')}
+          </div>
+          
+          <div class="feedback" id="feedback"></div>
+        </div>`
+      );
+      
+      // Start timer for this trial
+      currentStroopStartTime = Date.now(); 
+    }
+
+    /**
+     * Handles a participant's response to a Stroop trial.
+     * @param {string} response - The color chosen by the participant.
+     */
+    function handleStroopResponse(response) {
+      const trial = stroopTrials[currentTrialIndex];
+      const feedbackEl = document.getElementById("feedback");
+      const reactionTime = Date.now() - currentStroopStartTime; // Calculate reaction time
+      const isCorrect = response === trial.correctAnswer;
+      
+      if (isCorrect) {
+        stroopCurrentScore++;
+        feedbackEl.innerHTML = `<span class="correct"><i class="fas fa-check-circle"></i> Correct!</span>`;
+      } else {
+        feedbackEl.innerHTML = `<span class="incorrect"><i class="fas fa-times-circle"></i> Incorrect. Correct was: ${trial.correctAnswer}</span>`;
+      }
+      
+      // Store trial details
+      const trialData = {
+        word: trial.word,
+        inkColor: trial.inkColor,
+        chosenResponse: response,
+        correctAnswer: trial.correctAnswer,
+        isCorrect: isCorrect,
+        reactionTime: reactionTime
+      };
+
+      if (!studyResponses.pre.stroop.totalScore) { // Still in pre-test phase
+        studyResponses.pre.stroop.trialDetails.push(trialData);
+      } else { // In post-test phase
+        studyResponses.post.stroop.trialDetails.push(trialData);
+      }
+      
+      logDebug(`Trial ${currentTrialIndex + 1}: Word: ${trial.word}, Ink: ${trial.inkColor}, Response: ${response}, Correct: ${isCorrect}, RT: ${reactionTime}ms`);
+      
+      // Disable buttons temporarily to prevent multiple clicks
+      document.querySelectorAll('.button-grid .btn').forEach(btn => btn.disabled = true);
+
+      setTimeout(() => {
+        currentTrialIndex++;
+        document.querySelectorAll('.button-grid .btn').forEach(btn => btn.disabled = false); // Re-enable for next trial
+        showStroopTrial();
+      }, FEEDBACK_DISPLAY_TIME);
+    }
+
+    /**
+     * Ends the pre-gardening Stroop test and displays results.
+     */
+    function endPreStroopTest() {
+      const totalTime = studyResponses.pre.stroop.trialDetails.reduce((sum, trial) => sum + trial.reactionTime, 0) / 1000;
+      const totalAccuracy = (stroopCurrentScore / STROOP_TRIAL_COUNT) * 100;
+      
+      studyResponses.pre.stroop.totalScore = stroopCurrentScore;
+      studyResponses.pre.stroop.totalTime = totalTime.toFixed(1);
+      
+      updateScreen(
+        `<div class="success-screen">
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h2 class="section-title"><i class="fas fa-medal"></i> Pre-Gardening Test Completed</h2>
+          
+          <div class="result-card">
+            <p>Your cognitive performance score:</p>
+            <div class="result-score">${stroopCurrentScore}/${STROOP_TRIAL_COUNT}</div>
+            <p>${totalAccuracy.toFixed(1)}% Accuracy | Time: ${totalTime.toFixed(1)} seconds</p>
+          </div>
+          
+          <div class="garden-section">
+            <h3><i class="fas fa-seedling"></i> Gardening Session</h3>
+            <p>Please participate in gardening activities for the next 45-60 minutes.</p>
+            <p>After gardening, return to complete the post-gardening assessment.</p>
+          </div>
+          
+          <button class="btn btn-block" onclick="showPostSurvey()">
+            <i class="fas fa-seedling"></i> Continue to Post-Gardening Assessment
+          </button>
+        </div>`
+      );
+      
+      logDebug(`Pre-gardening Stroop test completed. Score: ${stroopCurrentScore}/${STROOP_TRIAL_COUNT} (${totalAccuracy.toFixed(1)}%) in ${totalTime.toFixed(1)}s`);
+    }
+
+    /**
+     * Displays the post-gardening survey.
+     */
+    function showPostSurvey() {
+      studyResponses.post.timestamp = new Date().toISOString(); // Record timestamp
+      updateScreen(
+        `<div>
+          <h2 class="section-title"><i class="fas fa-clipboard-list"></i> Post-Gardening Survey</h2>
+          <p>Please answer these questions about your current mental state after gardening.</p>
+          
+          <div class="form-group">
+            <label><i class="fas fa-brain"></i> Mental Clarity (1-7):</label>
+            <input type="number" id="postClarity" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.clarity || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Foggy</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Clear</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-tired"></i> Mental Fatigue (1-7):</label>
+            <input type="number" id="postFatigue" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.fatigue || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Rested</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Exhausted</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-bullseye"></i> Focus Level (1-7):</label>
+            <input type="number" id="postFocus" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.focus || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Distracted</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Focused</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-flushed"></i> Stress Level (1-7):</label>
+            <input type="number" id="postStress" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.stress || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Calm</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">Stressed</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-tasks"></i> Mental Demand During Gardening (1-7):</label>
+            <input type="number" id="postDemand" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.demand || ''}">
+            <div class="rating-container">
+              <span class="rating-label">Low</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">High</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-cloud-sun"></i> Weather During Gardening:</label>
+            <select id="postWeather">
+              <option value="">Select weather</option>
+              <option value="sunny" ${studyResponses.post.survey.weather === 'sunny' ? 'selected' : ''}>Sunny</option>
+              <option value="cloudy" ${studyResponses.post.survey.weather === 'cloudy' ? 'selected' : ''}>Cloudy</option>
+              <option value="rainy" ${studyResponses.post.survey.weather === 'rainy' ? 'selected' : ''}>Rainy</option>
+              <option value="windy" ${studyResponses.post.survey.weather === 'windy' ? 'selected' : ''}>Windy</option>
+              <option value="other" ${studyResponses.post.survey.weather === 'other' ? 'selected' : ''}>Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-users"></i> People Interacted With:</label>
+            <input type="text" id="postPeople" placeholder="e.g., 3-5 people" value="${studyResponses.post.survey.people || ''}">
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-comments"></i> Social Engagement (1-7):</label>
+            <input type="number" id="postSocial" min="${RATING_MIN}" max="${RATING_MAX}" value="${studyResponses.post.survey.social || ''}">
+            <div class="rating-container">
+              <span class="rating-label">None</span>
+              <span class="rating-label">2</span>
+              <span class="rating-label">3</span>
+              <span class="rating-label">4</span>
+              <span class="rating-label">5</span>
+              <span class="rating-label">6</span>
+              <span class="rating-label">High</span>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-tasks"></i> Gardening Activities:</label>
+            <textarea id="postActivities" rows="2" placeholder="What did you do? (planting, weeding, harvesting...)">${studyResponses.post.survey.activities || ''}</textarea>
+          </div>
+          
+          <div class="form-group">
+            <label><i class="fas fa-sticky-note"></i> Notes:</label>
+            <textarea id="postNotes" rows="3" placeholder="Any observations about your experience...">${studyResponses.post.survey.notes || ''}</textarea>
+          </div>
+          
+          <button class="btn btn-block" onclick="savePostSurvey()">
+            <i class="fas fa-arrow-right"></i> Complete Final Cognitive Test
+          </button>
+        </div>`
+      );
+      logDebug("Displaying post-gardening survey.");
+    }
+
+    /**
+     * Saves post-gardening survey responses and starts the post-gardening Stroop test.
+     */
+    function savePostSurvey() {
+      if (!validateSurveyInputs("post")) return;
+      
+      studyResponses.post.survey = {
+        clarity: parseInt(document.getElementById("postClarity").value),
+        fatigue: parseInt(document.getElementById("postFatigue").value),
+        focus: parseInt(document.getElementById("postFocus").value),
+        stress: parseInt(document.getElementById("postStress").value),
+        demand: parseInt(document.getElementById("postDemand").value),
+        weather: document.getElementById("postWeather").value,
+        people: document.getElementById("postPeople").value,
+        social: parseInt(document.getElementById("postSocial").value),
+        activities: document.getElementById("postActivities").value,
+        notes: document.getElementById("postNotes").value
+      };
+      
+      logDebug("Post-survey responses saved.");
+      startStroopTest(); // Reuses the startStroopTest function
+    }
+
+    /**
+     * Ends the post-gardening Stroop test and displays final results.
+     */
+    function endPostStroopTest() {
+      const totalTime = studyResponses.post.stroop.trialDetails.reduce((sum, trial) => sum + trial.reactionTime, 0) / 1000;
+      const totalAccuracy = (stroopCurrentScore / STROOP_TRIAL_COUNT) * 100;
+      
+      studyResponses.post.stroop.totalScore = stroopCurrentScore;
+      studyResponses.post.stroop.totalTime = totalTime.toFixed(1);
+      
+      // Calculate improvement metrics
+      const preScore = studyResponses.pre.stroop.totalScore;
+      const postScore = stroopCurrentScore;
+      const scoreDiff = postScore - preScore;
+      const scoreChangeText = scoreDiff > 0 ? `+${scoreDiff}` : scoreDiff;
+      const improvementPercent = preScore > 0 ? ((scoreDiff / preScore) * 100).toFixed(1) : "N/A";
+      
+      updateScreen(
+        `<div class="success-screen">
+          <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+          <h2 class="section-title"><i class="fas fa-medal"></i> Study Complete!</h2>
+          
+          <div class="result-card">
+            <p>Your post-gardening cognitive performance:</p>
+            <div class="result-score">${stroopCurrentScore}/${STROOP_TRIAL_COUNT}</div>
+            <p>${totalAccuracy.toFixed(1)}% Accuracy | Time: ${totalTime.toFixed(1)} seconds</p>
+          </div>
+          
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-label">Pre-Gardening Score</div>
+              <div class="stat-value">${preScore}/${STROOP_TRIAL_COUNT}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Post-Gardening Score</div>
+              <div class="stat-value">${postScore}/${STROOP_TRIAL_COUNT}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Score Change</div>
+              <div class="stat-value" style="color: ${scoreDiff > 0 ? '#4caf50' : '#f44336'}">${scoreChangeText}</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Improvement</div>
+              <div class="stat-value" style="color: ${parseFloat(improvementPercent) > 0 ? '#4caf50' : '#f44336'}">${improvementPercent}%</div>
+            </div>
+          </div>
+          
+          <div class="garden-section">
+            <h3><i class="fas fa-seedling"></i> Thank You for Participating!</h3>
+            <p>Your contribution helps us understand the cognitive benefits of community gardening.</p>
+          </div>
+          
+          <button class="btn btn-block" onclick="submitData()">
+            <i class="fas fa-paper-plane"></i> Submit Results
+          </button>
+        </div>`
+      );
+      
+      logDebug(`Post-gardening Stroop test completed. Score: ${stroopCurrentScore}/${STROOP_TRIAL_COUNT} (${totalAccuracy.toFixed(1)}%) in ${totalTime.toFixed(1)}s`);
+    }
+
+    /**
+     * Submits all collected study data to Google Sheets.
+     */
+    async function submitData() {
+      logDebug("Attempting to submit data...");
+
+      // Prepare data for Google Sheets
+      const dataToSend = {
+        participantCode: studyResponses.participantCode,
+        preSurvey: studyResponses.pre.survey,
+        preStroop: studyResponses.pre.stroop,
+        postSurvey: studyResponses.post.survey,
+        postStroop: studyResponses.post.stroop,
+        preTimestamp: studyResponses.pre.timestamp,
+        postTimestamp: studyResponses.post.timestamp
+      };
+
+      try {
+        // Use a CORS proxy if necessary, for testing purposes
+        const targetUrl = GOOGLE_SHEETS_WEB_APP_URL.startsWith('http') ? GOOGLE_SHEETS_WEB_APP_URL : CORS_PROXY_URL + GOOGLE_SHEETS_WEB_APP_URL;
+
+        const response = await fetch(targetUrl, {
+          method: 'POST',
+          mode: 'cors', // Crucial for cross-origin requests
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend)
         });
-    </script>
+
+        const result = await response.json();
+
+        if (response.ok && result.status === "success") {
+          logDebug("Data submitted successfully to Google Sheets!");
+          alert("Success! Your data has been submitted. Your participation is greatly appreciated.");
+          // Optionally, redirect or show a final thank you screen
+          updateScreen(
+            `<div class="success-screen">
+              <div class="success-icon"><i class="fas fa-check-double"></i></div>
+              <h2 class="section-title"><i class="fas fa-smile-beam"></i> Data Sent!</h2>
+              <p>Thank you once again for your valuable participation in the Community Garden Cognitive Study.</p>
+              <p>You may now close this page.</p>
+            </div>`
+          );
+        } else {
+          logDebug(`Data submission failed: ${result.message || 'Unknown error'}`);
+          alert(`Error submitting data: ${result.message || 'Please check the System Log for details.'}`);
+        }
+      } catch (error) {
+        logDebug(`Network or fetch error during data submission: ${error.message}`);
+        alert(`A network error occurred. Please check your internet connection or try again. Error: ${error.message}`);
+      }
+    }
+
+    // Start the application when the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", start);
+  </script>
 </body>
 </html>
